@@ -1,0 +1,2 @@
+-module(piece, [Id, Name, Data, CreationTime, ModifiedTime, Tags]).
+-compile(export_all).

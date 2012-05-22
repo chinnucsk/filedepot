@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>FileDepot</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<!-- Le styles -->
+	<link href="/static/css/filedepot.css" rel="stylesheet">
+
+	<!-- Le HTML5 shimm for IE6-8 support of HTML5 elements -->
+	<!--[if lt IE 9]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<!-- La fav icon -->
+	<link rel="shortcut icon" href="/static/favicon.ico">
+</head>
+
+<body>
+
+	<div class="container">
+
+		
+		<h1><a href="/">FileDepot</a></h1>
+		
+		<h3>Tags</h3>
+
+		<div class="well tags">
+
+			{% for tag in tags %}
+				<a href="{% url controller="start" action="index" tag=tag %}">{{ tag }}</a>
+			{% endfor %}
+		</div>
+
+		{% if filtertag %}
+			<h3>Filtered by: {{ filtertag }}</h3>
+		{% else %}
+			<h3>Showing all files</h3>
+		{% endif %}
+
+		<table class="table table-striped" id="files">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Type</th>
+					<th>Size</th>
+				<tr>
+			</thead>
+			<tbody>
+				{% if pieces %}
+					{% for piece in pieces %}
+						<tr>
+							<td>
+								<a href="{% url controller="piece" action="show" id=piece.id %}">
+									{{ piece.name }}
+								</a>
+								<!-- <a href="piece/show/{{ piece.id }}">{{ piece.name }}</a> -->
+							</td>
+							<td>N/A</td>
+							<td>{{ piece.data|length|filesizeformat }}</td>
+						</tr>
+					{% endfor %}
+				{% else %}
+					<tr><td colspan="3">No files added yet.</td></tr>
+				{% endif %}
+			</tbody>
+		</table>
+
+		<h3>Drop files below to upload</h3>
+
+		<div id="dropbox" data-target="{% url controller="piece" action="upload" %}">
+    	<span class="message">Drop files here to upload. <br /><i>(they will only be visible to you)</i></span>
+		</div>
+
+		<h3>Preview area</h3>
+
+		<table class="table table-striped" id="preview">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Size</th>
+					<th>Progress</th>
+					<th>Tags</th>
+					<th>&nbsp;</th>
+				</tr>
+			</thead>
+			<tbody class="files"></tbody>
+		</table>
+
+		<div class="row">
+			<div class="span3">
+				<button id="saveButton" class="hidden btn btn-success">Save these files to server</button>
+			</div>
+			<div class="span9">
+				<div class="alert alert-success hidden" id="saveAlert"></div>
+			</div>
+		</div>
+
+		
+			<!-- <span class="imageHolder">
+					<img src="" />
+					<span class="uploaded"></span>
+				</span>
+				<div class="progressHolder">
+					<div class="progress"></div>
+				</div> -->
+		
+
+		<!-- <h3>Upload new files below</h3> -->
+
+
+			<!-- <form id="fileupload" action="{% url controller="piece" action="upload" %}" method="POST" enctype="multipart/form-data">
+
+				<span class="btn btn-success fileinput-button">
+        	<i class="icon-plus icon-white"></i>
+          <span>Add files...</span>
+          <input type="file" name="files[]" multiple>
+				</span>
+
+				<button type="submit" class="btn btn-primary start">
+        	<i class="icon-upload icon-white"></i>
+          <span>Start upload</span>
+				</button>
+			 	Preview area for uploaded files
+			 	<table class="table table-striped">
+			 				 		<tbody class="files"></tbody>
+			 				 	</table>
+				The table listing the files available for upload/download
+        <table class="table table-striped">
+        	<tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody>
+        </table>
+			</form> -->
+
+
+	</div><!-- /container -->
+
+	<!-- Le javascript
+	================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script>window.jQuery || document.write('<script src="/static/js/jquery-1.7.2.min.js"><\/script>')</script>
+	<script src="/static/js/jquery.filedrop.js"></script>
+	<script src="/static/js/filedepot.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,124 @@
+@import "bootstrap";
+
+@bgColor: #E7E3BA;
+@bgColor: #fff;
+@fontColor: #000;
+
+@bodyStack: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
+@headingStack: Rockwell, "Courier Bold", Courier, Georgia, Times, "Times New Roman", serif;
+
+/*@tableBackground:	@white;*/
+/*@tableBackgroundAccent:	darken(@bgColor, 10%);
+@tableBackgroundHover: lighten(@bgColor, 10%);
+@tableBorder:	#ddd;*/
+
+body {
+	background: @bgColor;
+	font-family: @bodyStack;
+}
+
+p {
+	font-family: @bodyStack;
+	font-size: 120%;
+	color: @fontColor;
+}
+
+input, select, textarea, button {
+	font-family: @bodyStack;
+}
+
+h1, h2, h3 {
+	font-family: @headingStack;
+}
+
+h1 {
+	font-size: 4em;
+	line-height: 1.4;
+	text-align: center;
+}
+
+h2 {
+	font-size: 200%;
+}
+
+h3 {
+	margin: 10px 0;
+	border-bottom: 1px solid #ccc;
+}
+
+.container {
+	padding: 0 0 20px 0;
+}
+
+.tags {
+	a {
+		font-size: 150%;
+	}
+}
+
+#files {
+th {
+		background: @bgColor;
+		color: @fontColor;
+	}
+	p {
+		color: #ccc;
+	}
+	tbody tr:hover {
+		cursor: pointer;
+	}
+}
+
+/* File uploading */
+.fileinput-button {
+  position: relative;
+  overflow: hidden;
+  float: left;
+  margin-right: 4px;
+}
+.fileinput-button input {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  border: solid transparent;
+  border-width: 0 0 100px 200px;
+  opacity: 0;
+  filter: alpha(opacity=0);
+  -moz-transform: translate(-300px, 0) scale(4);
+  direction: ltr;
+  cursor: pointer;
+}
+
+#dropbox {
+	padding: 50px 0;
+	border: 3px dashed #000;
+	text-align: center;
+	.message {
+		font-size: 120%;
+	}
+}
+
+.warning {
+	color: #ee0000;
+}
+
+.over {
+	border: 3px dashed #ccc;
+}
+
+.hidden {
+	display: none;
+}
+
+/* File preview */
+#preview {	
+	.progress {		
+		margin: 0;
+	}
+}
+
+#saveButton {
+	height: 36px;
+	
+}
