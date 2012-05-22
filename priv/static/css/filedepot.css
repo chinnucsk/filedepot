@@ -4257,6 +4257,13 @@ h3 {
 .warning {
   color: #ee0000;
 }
+.delete {
+  padding: 2px 14px;
+  color: #ff0000;
+}
+.delete:hover {
+  color: #aa0000;
+}
 .over {
   border: 3px dashed #ccc;
 }
@@ -4266,6 +4273,13 @@ h3 {
 /* File preview */
 #preview .progress {
   margin: 0;
+}
+#preview button {
+  /*height: 20px;
+		font-size: 90%;*/
+
+  /*vertical-align: top;*/
+
 }
 #saveButton {
   height: 36px;

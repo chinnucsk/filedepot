@@ -56,21 +56,10 @@ $(document).ready(function() {
 		// response is the path to the temporarily stored file
 
 		uploadFinished: function(i, file, response) {			
-
 			// If the save button isn't visible, show it
 			if ($("#saveButton").hasClass('hidden'))
 				$("#saveButton").show();
 			console.log(response);
-
-			// console.log(file);
-			// console.log(typeof(file));
-			// var filename = file.name;
-			// var tempPath = response.tempPath;
-			// previewFile(filename, tempPath);
-			// Make sure we got an actual Object back, containing file information
-			// if (typeof(response) == "object") {
-			// 	$(".preview").append(file);
-			// }
 		},
 
 		error: function(err, file) {
@@ -91,7 +80,8 @@ $(document).ready(function() {
 
 		// Called before each upload is started
 		beforeEach: function(file){
-
+			console.log("Before!");
+			// SHOW SPINNER
 			// if(!file.type.match(/^image\//)){
 			// 				alert('Only images are allowed!');
 			//
@@ -155,12 +145,19 @@ $(document).ready(function() {
 		// Structure for the addition/removal of tags
 		var tags = '<a href="#">edit tags</a>';
 
+		// Structure for the remove file link
+		var removal = '<a class="delete" href="#">X</a>'; 
+		//'<button class="btn btn-mini btn-danger">Delete</button>';
+		//'<a href="#"><i class="icon-remove-sign"></i></a>'; 
+
+		// Everything put together
 		var template = 
 		'<tr>'	+	
 			'<td class="filename">' + filename + '</td>' +
 			'<td>' + fileSizeFormat(size) +'</td>' +
 			'<td>' + progress +'</td>' +
 			'<td>' + tags +'</td>' +
+			'<td>' + removal +'</td>' +
 		'</tr>';
 
 		tbody.append(template);

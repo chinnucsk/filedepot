@@ -8,12 +8,9 @@ show('GET', [Id]) ->
 	{output, Piece:data(), [{"Content-Type", ContentType}]}.
 
 upload('POST', []) ->
-	io:format("POST piece upload~n"),
-	io:format("Req: ~p~n", [Req:post_files()]),
-	
-	{uploaded_file, Name, TempPath, Size} = hd(Req:post_files()),
-	% File = [{name, Name}, {tempPath, TempPath}, {size, Size}],
-	% io:format("Files: ~p~n", [File]),
+	io:format("POST piece upload~n"),	
+	%% In the Filedepot case, we're only uploading one file at a time
+	{uploaded_file, Name, TempPath, Size} = hd(Req:post_files()),	
 	{json, [{tempPath,TempPath}]}.
 
 
