@@ -4,6 +4,7 @@ Filedepot is a hobby project aimed at playing around with ChicagoBoss and Riak
 
 ## Todo
 
+* User Accounts w. quotas
 * Add/remove tags from preview files
 * Display spinner between dropping of files and upload start
 * Removal of preview files

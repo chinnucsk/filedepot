@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
 	$("#files tbody tr").click(function() {
-		console.log("Clicked!");
+
 		if ($(this).next().hasClass("preview")) {
 			$(this).next().toggle();
 		}
@@ -51,15 +51,27 @@ $(document).ready(function() {
 		maxfilesize: 5, // in megabytes
 		url: dropbox.attr('data-target'),
 
-		// file is a File object containing 
+		// Set a lighter border-color when we drag a file over the dropbox
+		dragOver: function() {
+			dropbox.css('border-color', '#ccc');
+		},
+
+		// Return to normal after we leave the dropbox
+		dragLeave: function() {
+			dropbox.css('border-color', '#000');
+		},
+
+		// file is a File object containing
 		// 	lastModifiedDate, name, size, webkitRelativePath
 		// response is the path to the temporarily stored file
 
-		uploadFinished: function(i, file, response) {			
+		uploadFinished: function(i, file, response) {
 			// If the save button isn't visible, show it
 			if ($("#saveButton").hasClass('hidden'))
 				$("#saveButton").show();
-			console.log(response);
+			// Store the temporary dir
+			// console.log(file);
+			// 			console.log(response);
 		},
 
 		error: function(err, file) {
@@ -71,7 +83,7 @@ $(document).ready(function() {
 					showWarning('Too many files! Please select 5 at most!');
 					break;
 				case 'FileTooLarge':
-					showWarning('\'' + file.name + '\' is too large! Max size allowed 5mb');
+					showWarning('\'' + file.name + '\' is too large! Max size allowed 5 MB');
 					break;
 				default:
 					break;
@@ -80,7 +92,7 @@ $(document).ready(function() {
 
 		// Called before each upload is started
 		beforeEach: function(file){
-			console.log("Before!");
+			// console.log("Before!");
 			// SHOW SPINNER
 			// if(!file.type.match(/^image\//)){
 			// 				alert('Only images are allowed!');
@@ -91,23 +103,41 @@ $(document).ready(function() {
 			// 			}
 		},
 
-		uploadStarted:function(i, file, len){								
-			previewFile(file.name, file.size);			
+		uploadStarted:function(i, file, len){
+			var preview = previewFile(file.name, file.size);
+			// preview[0] because an array of objects is returned from previewFile() but there is only one element
+			// Bind the file data to this particular preview element
+			$.data(preview[0], file);
 		},
 
 		progressUpdated: function(i, file, progress) {
-			console.log("progressUpdated");
-			console.log(progress);
-			console.log(file);
 			updateProgressBar(file.name, progress);
 			// $.data(file).find('.progress').width(progress);
-		}
+		},
+
+		speedUpdated: function(i, file, speed) {
+			console.log(speed + " kb/s");
+    },
 	});
 
 	// After we've uploaded our files, we want to save them to the server
 	$("#saveButton").click(function() {
 		$("#saveAlert").html("Files saved!");
 		$("#saveAlert").show();
+
+		var files = $("#preview tbody tr");
+		console.log("SaveButton: ");
+		console.log(files);
+		console.log($.data(files[0]));
+		$.each(files, function(i, file) {
+
+			console.log($.data(file));
+		});
+	});
+
+	// Remove one of the preview files
+	$(document).on("click", ".delete", function(event) {
+		console.log($(this).parent().parent());
 	});
 
 	function showWarning(msg) {
@@ -122,10 +152,10 @@ $(document).ready(function() {
 	// This function updates the progress bar belonging to 'filename' to 'progress'
 	function updateProgressBar(filename, progress) {
 		// Apply a filter only to keep the one row that contains 'filename'
-		var tr = $("#preview tbody tr").filter(function(i) {									
-			return $('td.filename', this).html() == filename;			
+		var tr = $("#preview tbody tr").filter(function(i) {
+			return $('td.filename', this).html() == filename;
 		});
-		// Set the progress bar to 'progress' %		
+		// Set the progress bar to 'progress' %
 		$('.progress .bar', tr).css('width', progress+'%');
 		// Remove the 'active' animation if the progress is updated to 100%
 		if (progress == 100)
@@ -137,7 +167,7 @@ $(document).ready(function() {
 		var tbody = target.find("tbody");
 
 		// Structure for the progress bar
-		var progress = 
+		var progress =
 		'<div class="progress progress-striped active">' +
   		'<div class="bar" style="width: 0%;"></div>' +
 		'</div>'
@@ -146,21 +176,23 @@ $(document).ready(function() {
 		var tags = '<a href="#">edit tags</a>';
 
 		// Structure for the remove file link
-		var removal = '<a class="delete" href="#">X</a>'; 
+		var removal = '<a class="delete" href="#">X</a>';
 		//'<button class="btn btn-mini btn-danger">Delete</button>';
-		//'<a href="#"><i class="icon-remove-sign"></i></a>'; 
+		//'<a href="#"><i class="icon-remove-sign"></i></a>';
 
 		// Everything put together
-		var template = 
-		'<tr>'	+	
+		var template =
 			'<td class="filename">' + filename + '</td>' +
 			'<td>' + fileSizeFormat(size) +'</td>' +
 			'<td>' + progress +'</td>' +
 			'<td>' + tags +'</td>' +
-			'<td>' + removal +'</td>' +
-		'</tr>';
-
-		tbody.append(template);
+			'<td>' + removal +'</td>';
+		// Add this to a table row
+		var tr = $(document.createElement('tr')).append(template);
+		// Add the row to the preview table's tbody
+		tbody.append(tr);
+		// Return it so we can bind some File data to it
+		return tr;
 	}
 
 	// Format the value like a human-readable file size
@@ -168,16 +200,17 @@ $(document).ready(function() {
 	var FD_MEGABYTE = FD_KILOBYTE * 1024;
 	var FD_GIGABYTE = FD_MEGABYTE * 1024;
 
-	function fileSizeFormat(size) {			
+	function fileSizeFormat(size) {
 		if (size >= FD_GIGABYTE)
 			return fileSizeFormat(size/FD_GIGABYTE) + " GB";
 		else if (size >= FD_MEGABYTE)
 			return fileSizeFormat(size/FD_MEGABYTE) + " MB";
 		else if (size >= FD_KILOBYTE)
 			return fileSizeFormat(size/FD_KILOBYTE) + " KB";
-		else if (typeof(size) == "number")
+		else if (size.toString().indexOf(".") != -1)
 			return Math.round(size*100)/100;
-		else 
+		else
 			return size + " bytes";
-	}	
+	}
+
 });
