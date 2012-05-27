@@ -4254,9 +4254,6 @@ h3 {
 #dropbox .message {
   font-size: 120%;
 }
-.dragover {
-  border: 3px dashed #ccc;
-}
 .warning {
   color: #ee0000;
 }

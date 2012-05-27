@@ -23,13 +23,13 @@
 
 	<div class="container">
 
-		
+
 		<h1><a href="/">FileDepot</a></h1>
-		
+
 		<h3>Tags</h3>
 
 		<div class="well tags">
-
+			<a href="{% url controller="start" action="index" %}">(all)</a> -----
 			{% for tag in tags %}
 				<a href="{% url controller="start" action="index" tag=tag %}">{{ tag }}</a>
 			{% endfor %}
@@ -83,8 +83,7 @@
 					<th>Name</th>
 					<th>Size</th>
 					<th>Progress</th>
-					<th>Tags</th>
-					<th>&nbsp;</th>
+					<th>Status</th>
 				</tr>
 			</thead>
 			<tbody class="files"></tbody>
