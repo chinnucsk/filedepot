@@ -45,26 +45,36 @@
 			<thead>
 				<tr>
 					<th>Name</th>
-					<th>Type</th>
 					<th>Size</th>
+					<th>Tags</th>
+					<th>&nbsp;</th>
+					<th>&nbsp;</th>
 				<tr>
 			</thead>
 			<tbody>
 				{% if pieces %}
 					{% for piece in pieces %}
-						<tr>
+						<tr data-piece="{{piece.id}}">
 							<td>
 								<a href="{% url controller="piece" action="show" id=piece.id %}">
 									{{ piece.name }}
 								</a>
 								<!-- <a href="piece/show/{{ piece.id }}">{{ piece.name }}</a> -->
 							</td>
-							<td>N/A</td>
 							<td>{{ piece.data|length|filesizeformat }}</td>
+							<td class="tags">
+								<a href="#">edit</a>
+							</td>
+							<td class="delete">
+								<a>delete</a>
+							</td>
+							<td class="preview">
+								<a>show</a>
+							</td>
 						</tr>
 					{% endfor %}
 				{% else %}
-					<tr><td colspan="3">No files added yet.</td></tr>
+					<tr><td colspan="4">No files added yet.</td></tr>
 				{% endif %}
 			</tbody>
 		</table>

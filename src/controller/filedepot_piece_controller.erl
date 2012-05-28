@@ -21,4 +21,16 @@ upload('POST', []) ->
 	Message = lists:concat([Name," ", "saved successfully (", integer_to_list(Size), " bytes)"]),
 	{json, [{status,"ok"}, {message, Message}]}.
 
+delete('POST', [Id]) ->
+	%% Make sure we are deleting a 'piece' record
+	case boss_db:type(Id) of
+		piece ->
+			boss_db:delete(Id),
+			{json, [{status,"ok"}]};
+		undefined ->
+			Message = lists:concat(["The record with ID: '", Id, "' isn't of type 'piece'."]),
+			{json, [{status, "error"}, {message, Message}]}
+	end.
+
+
 

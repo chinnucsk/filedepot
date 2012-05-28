@@ -4174,10 +4174,6 @@ a.badge:hover {
 .invisible {
   visibility: hidden;
 }
-/*@tableBackground:	@white;*/
-/*@tableBackgroundAccent:	darken(@bgColor, 10%);
-@tableBackgroundHover: lighten(@bgColor, 10%);
-@tableBorder:	#ddd;*/
 body {
   background: #ffffff;
   font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
@@ -4213,7 +4209,7 @@ h3 {
 .container {
   padding: 0 0 20px 0;
 }
-.tags a {
+a {
   font-size: 150%;
 }
 #files th {
@@ -4225,6 +4221,12 @@ h3 {
 }
 #files tbody tr:hover {
   cursor: pointer;
+}
+#files .delete a {
+  color: #aa0000;
+}
+#files .delete a:hover {
+  color: #aa0000;
 }
 /* File uploading */
 .fileinput-button {
@@ -4257,13 +4259,6 @@ h3 {
 .warning {
   color: #ee0000;
 }
-.delete {
-  padding: 2px 14px;
-  color: #ff0000;
-}
-.delete:hover {
-  color: #aa0000;
-}
 .over {
   border: 3px dashed #ccc;
 }
@@ -4283,4 +4278,30 @@ h3 {
 }
 #saveButton {
   height: 36px;
+}
+.redgradient {
+  background: #a90329;
+  /* Old browsers */
+
+  background: -moz-linear-gradient(top, #a90329 0%, #8f0222 44%, #6d0019 100%);
+  /* FF3.6+ */
+
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #a90329), color-stop(44%, #8f0222), color-stop(100%, #6d0019));
+  /* Chrome,Safari4+ */
+
+  background: -webkit-linear-gradient(top, #a90329 0%, #8f0222 44%, #6d0019 100%);
+  /* Chrome10+,Safari5.1+ */
+
+  background: -o-linear-gradient(top, #a90329 0%, #8f0222 44%, #6d0019 100%);
+  /* Opera 11.10+ */
+
+  background: -ms-linear-gradient(top, #a90329 0%, #8f0222 44%, #6d0019 100%);
+  /* IE10+ */
+
+  background: linear-gradient(top, #a90329 0%, #8f0222 44%, #6d0019 100%);
+  /* W3C */
+
+  filter: progid:dximagetransform.microsoft.gradient(startColorstr='#a90329', endColorstr='#6d0019', GradientType=0);
+  /* IE6-9 */
+
 }

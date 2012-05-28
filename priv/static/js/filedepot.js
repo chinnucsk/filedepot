@@ -1,13 +1,21 @@
 $(document).ready(function() {
 
-	$("#files tbody tr").click(function() {
+	$("#files .preview a").click(function() {
 
-		if ($(this).next().hasClass("preview")) {
-			$(this).next().toggle();
+		// Toggle 'show' and 'hide'
+		if ($(this).html() == "show") {
+			$(this).html("hide");
 		}
 		else {
-			var target = $(this);
-			var url = $(this).find('a').attr('href');
+			$(this).html("show");
+		}
+		var target = $(this).closest("tr");
+
+		if (target.next().hasClass("preview")) {
+			target.next().toggle();
+		}
+		else {
+			var url = target.find('a').attr('href');
 			// Fetch the file contents from the given url
 			$.get(url, function(ret) {
 
@@ -19,7 +27,7 @@ $(document).ready(function() {
 				// If it's an image, display content in an <img> tag
 				if (contentType.split('/')[0] == "image") {
 					var img = '<img src="' + url + '" />';
-					target.after('<tr class="preview"><td colspan="3">' + img + '</td></tr>');
+					target.after('<tr class="preview"><td colspan="5">' + img + '</td></tr>');
 				}
 				// Otherwise, print contents
 				else {
@@ -34,7 +42,7 @@ $(document).ready(function() {
 					// Make sure newlines are printed
 					output = output.replace(/\n/g, "<br>");
 					// Insert the data
-					target.after('<tr class="preview"><td colspan="3">' + output + '</td></tr>');
+					target.after('<tr class="preview"><td colspan="5">' + output + '</td></tr>');
 				}
 			});
 		}
@@ -83,7 +91,7 @@ $(document).ready(function() {
 		error: function(err, file) {
 			switch (err) {
 				case 'BrowserNotSupported':
-					showMessage('Your browser does not support HTML5 file uploads!');
+					showMessage('Your browser does not support HTML5 file uploads. Why not give Chrome or Firefox a try?');
 					break;
 				case 'TooManyFiles':
 					showWarning('Too many files! Please select 5 at most!');
@@ -172,5 +180,11 @@ $(document).ready(function() {
 		else
 			return size + " bytes";
 	}
+
+	$(document).on("click", ".delete a", function(event) {
+		event.stopPropagation();
+		console.log($(this));
+		console.log("click!");
+	});
 
 });
